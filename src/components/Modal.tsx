@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,6 +8,8 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [render, setRender] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // 모달 외부 클릭 시 닫기
   useEffect(() => {
@@ -20,14 +22,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       }
     };
 
-    if (isOpen) {
+    if (render && isAnimating) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, onClose]);
+  }, [render, isAnimating, onClose]);
 
   // ESC 키 누를 시 닫기
   useEffect(() => {
@@ -37,16 +39,33 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       }
     };
 
-    if (isOpen) {
+    if (render && isAnimating) {
       document.addEventListener("keydown", handleEscapeKey);
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [isOpen, onClose]);
+  }, [render, isAnimating, onClose]);
 
-  if (!isOpen) return null;
+  // 모달 가시성 및 애니메이션 제어
+  useEffect(() => {
+    if (isOpen) {
+      setRender(true);
+      const timer = setTimeout(() => {
+        setIsAnimating(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => {
+        setRender(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!render) return null;
 
   return (
     <div
@@ -56,15 +75,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 1000,
+        transition: "background-color 0.3s ease-in-out",
+        backgroundColor: isAnimating ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0)",
       }}
     >
       <div
-        className="modal-content"
         style={{
           background: "white",
           padding: "20px",
@@ -75,6 +94,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           overflowY: "auto",
           position: "relative",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+          transform: isAnimating ? "translateY(0)" : "translateY(20px)",
+          opacity: isAnimating ? 1 : 0,
+          transition: "transform 0.3s ease-in-out, opacity 0.3s ease-in-out",
         }}
         ref={modalRef}
       >
