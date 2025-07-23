@@ -119,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         >
           &times;
         </button>
-        <div style={{ padding: "20px" }}>{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );
