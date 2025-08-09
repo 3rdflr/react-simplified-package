@@ -17,6 +17,23 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "keywords": [
+    "react",
+    "react-component",
+    "ui",
+    "ui-kit",
+    "modal",
+    "toast",
+    "dialog",
+    "notification",
+    "headless",
+    "simplified",
+    "lightweight",
+    "customizable",
+    "animation",
+    "typescript",
+    "tailwind"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
