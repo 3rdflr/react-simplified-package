@@ -98,8 +98,6 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   const customButtonStyle: React.CSSProperties = {
-    top: "10px",
-    right: "10px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -112,6 +110,8 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   const defaultButtonStyle: React.CSSProperties = {
+    top: "10px",
+    right: "10px",
     minWidth: "20px",
     minHeight: "20px",
     fontSize: "20px",
