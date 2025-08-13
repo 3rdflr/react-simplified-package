@@ -131,7 +131,7 @@ const Modal: React.FC<ModalProps> = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 1000,
+        zIndex: 999,
         transition: "background-color 0.3s ease-in-out",
         background: isAnimating ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0)",
       }}

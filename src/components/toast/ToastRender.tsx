@@ -52,7 +52,7 @@ export const ToastRender = () => {
         left: "50%",
         transform: "translateX(-50%)",
         pointerEvents: "none",
-        zIndex: 1000,
+        zIndex: 500,
         width: "100%",
       }}
     >
