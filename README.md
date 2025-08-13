@@ -204,10 +204,10 @@ Then, you can use the createToastInstance function to get a toast instance and s
 // MyComponent.tsx
 
 import React from "react";
-import { createToastInstance } from "./Toast";
+import { createToast } from "./Toast";
 
 // 1. Create a toast instance. You can create one instance and reuse it.
-const toast = createToastInstance("Hello, world!");
+const toast = createToast("Hello, world!");
 
 const MyComponent = () => {
   return (
@@ -230,10 +230,10 @@ You can pass a custom string or a full React element. The createToastInstance fu
 ```JavaScript
 
 import React from "react";
-import { createToastInstance } from "./Toast";
+import { createToast } from "./Toast";
 
 // With a simple string (most common)
-const toastWithMessage = createToastInstance("Action completed successfully!");
+const toastWithMessage = createToast("Action completed successfully!");
 
 // With a full React component
 const CustomContent = () => (
@@ -241,10 +241,10 @@ const CustomContent = () => (
     <strong>Success!</strong> Your data has been saved.
   </div>
 );
-const toastWithComponent = createToastInstance(<CustomContent />);
+const toastWithComponent = createToast(<CustomContent />);
 
 // With a dynamic function
-const toastWithDynamicContent = createToastInstance((message: string) => (
+const toastWithDynamicContent = createToast((message: string) => (
   <p>{message}</p>
 ));
 
@@ -272,15 +272,15 @@ You can specify a duration in milliseconds to control how long the toast remains
 ```JavaScript
 
 import React from "react";
-import { createToastInstance } from "./Toast";
+import { createToast } from "./Toast";
 
 // Default duration of 5 seconds (5000ms)
-const longToast = createToastInstance("This toast lasts for 5 seconds.", {
+const longToast = createToast("This toast lasts for 5 seconds.", {
   duration: 5000,
 });
 
 // Override the duration for a specific toast run
-const shortToast = createToastInstance("This is a short toast.");
+const shortToast = createToast("This is a short toast.");
 
 const DurationComponent = () => {
   return (
@@ -299,5 +299,170 @@ const DurationComponent = () => {
   );
 };
 ```
+
+</details>
+
+### Dropdown
+
+<details>
+<summary>Dropdown Usage</summary>
+
+`Dropdown` is a flexible and accessible dropdown component built using the Compound Component pattern. 
+It handles the core logic and state management for you, allowing you to focus on building your UI.
+
+### Key Features
+
+Headless Logic: Automatically manages the dropdown's `isOpen` state and provides essential control functions like `toggle` and `close`.
+
+Outside Click Dismiss: The dropdown automatically closes when a user clicks outside of it.
+
+Accessibility Support: Handles important accessibility attributes like `aria-haspopup` and `aria-expanded` out of the box.
+
+Full Customization: Offers full control over the styling using `className` and `style` props.
+
+### Basic Usage
+
+To use the dropdown, simply wrap your trigger and menu elements inside the main `Dropdown`.
+
+```JavaScript
+
+import React from 'react';
+import { Dropdown } from 'react-simplified-package';
+
+function MyDropdown() {
+  return (
+    <Dropdown>
+      {/* 1. The Trigger component wraps the element that opens the dropdown */}
+      <DropdownComponent.Trigger>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
+          Options
+        </button>
+      </Dropdown.Trigger>
+
+      {/* 2. The Menu component contains the content to be displayed */}
+      <Dropdown.Menu>
+        <div className="py-1">
+          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            My Account
+          </a>
+          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Settings
+          </a>
+          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Log out
+          </a>
+        </div>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+```
+`Dropdown.Menu` Prop Details
+The `Dropdown.Menu` provides two props for full control over its styling.
+
+| Prop |	Type |	Description |
+|---|----|---|
+|`className`|	`string` |	Applies CSS classes to the menu container. If a `className` is provided, all default inline styles are ignored, giving you complete control over the component's appearance.|
+|`style` |	`CSSProperties`|	Applies an inline style object to the menu container. This will only be applied if no `className` is provided, allowing you to override specific default styles while keeping others.|
+
+Example: Customizing Styles
+
+Using `className` for full control: Use this when you want to style the entire component with utility classes (e.g., from Tailwind CSS).
+
+Using `style` for partial overrides: Use this when you want to maintain the default style but change only a few properties like `background` or `border`.
+
+```JavaScript
+
+// Using a className to define all styles
+<Dropdown.Menu className="bg-white rounded-xl shadow-lg p-2 border-2 border-slate-300">
+  {/* ... */}
+</Dropdown.Menu>
+
+// Using a style prop to override a specific property
+<Dropdown.Menu style={{ backgroundColor: '#F0F4F8' }}>
+  {/* ... */}
+</Dropdown.Menu>
+```
+### Rendering Menu Items with Data
+Because `Dropdown.Menu` accepts any JSX elements as children, you can easily use array methods like `.map()` to render dynamic menu items. 
+This is ideal for menus populated from an API or based on user permissions.
+
+Example: A data-driven dropdown menu
+
+```JavaScript
+
+import React from 'react';
+import { Dropdown } from 'react-simplified-package';
+
+const userActions = [
+  { label: 'View Profile', handler: () => alert('Navigating to profile...') },
+  { label: 'Change Settings', handler: () => alert('Navigating to settings...') },
+  { label: 'Sign out', handler: () => alert('Signing out...') },
+];
+
+function UserDropdown() {
+  return (
+    <Dropdown>
+      <Dropdown.Trigger>
+        <button className="px-4 py-2 bg-purple-500 text-white rounded-md">
+          User Menu
+        </button>
+      </Dropdown.Trigger>
+
+      <Dropdown.Menu className="bg-white rounded-lg shadow-md p-2">
+        {userActions.map((action, index) => (
+          <button
+            key={index}
+            onClick={action.handler}
+            className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md"
+          >
+            {action.label}
+          </button>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+```
+### Controlling State with a Hook
+The `useDropdown` hook allows you to take full control of the dropdown's state from outside the component. 
+This is useful for building more complex interactions or integrating with other UI elements.
+
+```JavaScript
+
+import { useDropdown, Dropdown } from 'react-simplified-package';
+
+function AdvancedDropdown() {
+  const { isOpen, toggle, open, close, dropdownRef } = useDropdown();
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <p>Dropdown state: {isOpen ? 'Open' : 'Closed'}</p>
+      <button onClick={open} className="mr-2 p-2 bg-green-500 text-white rounded">
+        Force Open
+      </button>
+      <button onClick={close} className="p-2 bg-red-500 text-white rounded">
+        Force Close
+      </button>
+
+      {/* ✅ Pass the ref from useDropdown to the parent div */}
+      <div ref={dropdownRef}>
+        <Dropdown.Trigger>
+          <button>Options</button>
+        </Dropdown.Trigger>
+        
+        {/* Conditionally render the menu based on the `isOpen` state from the hook */}
+        {isOpen && (
+          <Dropdown.Menu>
+            <div>Menu controlled by the hook</div>
+          </Dropdown.Menu>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+Note: When using the `useDropdown` hook, you are responsible for managing the `isOpen` state and conditionally rendering the menu. 
+The parent `div` should be passed the `dropdownRef` from the hook for the outside click logic to work correctly.
 
 </details>
