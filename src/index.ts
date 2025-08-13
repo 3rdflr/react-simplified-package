@@ -3,19 +3,19 @@ export { default as Modal } from "./components/modal/Modal";
 
 // Toast Componets
 export { ToastRender } from "./components/toast/ToastRender";
-export { createToastInstance } from "./components/toast/Toast";
+export { createToastInstance as createToast } from "./components/toast/Toast";
 
 // Dropdown Componets
 
 import { useDropdown } from "./components/dropdown/useDropdown";
 import {
-  Dropdown,
+  Dropdown as DropdownComponent,
   DropdownTrigger,
   DropdownMenu,
 } from "./components/dropdown/Dropdown";
 
 // ✅ Dropdown 컴포넌트에 자식 컴포넌트를 연결합니다.
-export const DropdownComponent = Object.assign(Dropdown, {
+export const Dropdown = Object.assign(DropdownComponent, {
   Trigger: DropdownTrigger,
   Menu: DropdownMenu,
 });
