@@ -14,7 +14,6 @@ import {
   DropdownMenu,
 } from "./components/dropdown/Dropdown";
 
-// ✅ Dropdown 컴포넌트에 자식 컴포넌트를 연결합니다.
 export const Dropdown = Object.assign(DropdownComponent, {
   Trigger: DropdownTrigger,
   Menu: DropdownMenu,
