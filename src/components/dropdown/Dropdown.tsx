@@ -1,6 +1,6 @@
 // Dropdown.tsx
 
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { DropdownContext, useDropdownContext } from "./DropdownContext";
 import { useDropdown } from "./useDropdown";
 
@@ -12,14 +12,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ children }) => {
   const dropdown = useDropdown();
 
   return (
-    <div
-      ref={dropdown.dropdownRef}
-      style={{
-        position: "relative",
-        display: "inline-block",
-        textAlign: "left",
-      }}
-    >
+    <div ref={dropdown.dropdownRef} className="relative inline-block text-left">
       <DropdownContext.Provider value={dropdown}>
         {children}
       </DropdownContext.Provider>
@@ -27,7 +20,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ children }) => {
   );
 };
 
-// DropdownTrigger
+// DropdownTrigger.tsx
 
 export interface DropdownTriggerProps {
   children: React.ReactElement<{
@@ -49,52 +42,31 @@ export const DropdownTrigger: React.FC<DropdownTriggerProps> = ({
   });
 };
 
-// DropdownMenu
+// DropdownMenu.tsx
 
 export interface DropdownMenuProps {
   children: React.ReactNode;
-  style?: React.CSSProperties;
-  className?: string;
+  className?: string; // style prop 제거
 }
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   children,
-  style,
   className,
 }) => {
   const { isOpen } = useDropdownContext();
 
-  const menuStyle: React.CSSProperties = {
-    position: "absolute",
-    right: 0,
-    marginTop: "8px", // 0.5rem -> 8px
-    width: "224px", // 14rem -> 224px
-    borderRadius: "6px", // 0.375rem -> 6px
-    boxShadow:
-      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-    outline: "none",
-    zIndex: 10,
-    ...style,
-  };
-
-  const defaultMenuStyle: React.CSSProperties = {
-    backgroundColor: "white",
-    ...menuStyle,
-  };
-
-  const menuItemsContainerStyle: React.CSSProperties = {
-    paddingTop: "4px", // 0.25rem -> 4px
-    paddingBottom: "4px", // 0.25rem -> 4px
-  };
+  const baseMenuClasses = `
+    absolute right-0 mt-2 w-56 rounded-md bg-white 
+    shadow-lg outline-none z-10
+  `;
 
   return isOpen ? (
     <div
-      className={className}
-      style={className || style ? menuStyle : defaultMenuStyle}
+      className={`${baseMenuClasses} ${className}`}
       role="menu"
       aria-orientation="vertical"
     >
-      <div style={menuItemsContainerStyle} role="none">
+      <div className="py-1" role="none">
         {children}
       </div>
     </div>

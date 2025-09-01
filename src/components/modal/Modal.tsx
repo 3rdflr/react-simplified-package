@@ -1,3 +1,5 @@
+// Modal.tsx (Tailwind CSS 전용)
+
 import React, { useRef, useEffect, useState } from "react";
 
 interface ModalProps {
@@ -77,80 +79,31 @@ const Modal: React.FC<ModalProps> = ({
 
   if (!render) return null;
 
-  const modalAnimation: React.CSSProperties = {
-    transform: isAnimating ? "translateY(0)" : "translateY(20px)",
-    opacity: isAnimating ? 1 : 0,
-    transition: "transform 0.3s ease-in-out, opacity 0.3s ease-in-out",
-  };
+  // 컴포넌트 내부에서 Tailwind 클래스를 정의하고 외부 클래스와 결합합니다.
+  const baseContainerClasses = `
+    fixed inset-0 flex items-center justify-center z-[999] 
+    transition-colors duration-300
+    ${isAnimating ? "bg-black/50" : "bg-black/0"}
+  `;
 
-  const customModalStyle: React.CSSProperties = {
-    padding: "20px",
-    borderRadius: "10px",
-    minWidth: "278px",
-    position: "relative",
-    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
-    ...modalAnimation,
-  };
+  const baseModalClasses = `
+    p-5 rounded-xl min-w-[278px] relative shadow-lg bg-white
+    transition-all duration-300 ease-in-out
+    ${isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}
+  `;
 
-  const defaultModalStyle: React.CSSProperties = {
-    background: "white",
-    ...customModalStyle,
-  };
-
-  const customButtonStyle: React.CSSProperties = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    padding: "0",
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    outline: "none",
-  };
-
-  const defaultButtonStyle: React.CSSProperties = {
-    top: "10px",
-    right: "10px",
-    minWidth: "20px",
-    minHeight: "20px",
-    fontSize: "20px",
-    color: "rgba(143, 149, 178, 1)",
-    ...customButtonStyle,
-  };
+  const baseButtonClasses = `
+    flex items-center justify-center absolute top-2 right-2 
+    p-1 bg-transparent border-none cursor-pointer outline-none 
+    text-gray-400 hover:text-gray-600
+    text-2xl font-light
+  `;
 
   return (
-    <div
-      className={containerClassName}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 999,
-        transition: "background-color 0.3s ease-in-out",
-        background: isAnimating ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0)",
-      }}
-    >
-      <div
-        // modalClassName이 있을 때만 className을 적용하고, 없을 때는 style을 사용합니다.
-        className={modalClassName}
-        style={
-          modalClassName ? { ...customModalStyle } : { ...defaultModalStyle }
-        }
-        ref={modalRef}
-      >
+    <div className={`${baseContainerClasses} ${containerClassName}`}>
+      <div className={`${baseModalClasses} ${modalClassName}`} ref={modalRef}>
         <button
-          className={buttonClassName}
-          style={
-            buttonClassName
-              ? { ...customButtonStyle }
-              : { ...defaultButtonStyle }
-          }
+          className={`${baseButtonClasses} ${buttonClassName}`}
           onClick={onClose}
         >
           &times;
