@@ -15,8 +15,6 @@ import {
   DropdownMenu,
 } from "./components/dropdown/Dropdown";
 
-export { useDropdownContext } from "./components/dropdown/DropdownContext";
-
 export const Dropdown = Object.assign(DropdownComponent, {
   Trigger: DropdownTrigger,
   Menu: DropdownMenu,
