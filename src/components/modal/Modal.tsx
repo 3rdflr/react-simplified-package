@@ -79,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
 
   // 컴포넌트 내부에서 Tailwind 클래스를 정의하고 외부 클래스와 결합합니다.
   const baseContainerClasses = `
-    fixed inset-0 flex items-center justify-center z-[999] 
+    inset-0 flex items-center justify-center
     transition-colors duration-300
     ${isAnimating ? "bg-black/50" : "bg-black/0"}
   `;
@@ -98,7 +98,15 @@ const Modal: React.FC<ModalProps> = ({
   `;
 
   return (
-    <div className={`${baseContainerClasses} ${containerClassName}`}>
+    <div
+      style={{
+        zIndex: 999,
+        position: "fixed",
+        top: 0,
+        left: 0,
+      }}
+      className={`${baseContainerClasses} ${containerClassName}`}
+    >
       <div className={`${baseModalClasses} ${modalClassName}`} ref={modalRef}>
         <button
           className={`${baseButtonClasses} ${buttonClassName}`}
