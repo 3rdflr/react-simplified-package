@@ -105,7 +105,12 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className={baseContainerClasses}>
-      <div className={baseModalClasses} ref={modalRef}>
+      <div
+        className={baseModalClasses}
+        ref={modalRef}
+        onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+      >
         <button className={baseButtonClasses} onClick={onClose}>
           &times;
         </button>
