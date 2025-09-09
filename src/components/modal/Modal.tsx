@@ -79,6 +79,27 @@ const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen]);
 
+  // 모달 내부 스크롤 제한 (wheel 이벤트)
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (!modalRef.current) return;
+      const { scrollTop, scrollHeight, clientHeight } = modalRef.current;
+      const delta = e.deltaY;
+
+      if (scrollTop === 0 && delta < 0) e.preventDefault();
+      else if (scrollTop + clientHeight >= scrollHeight && delta > 0)
+        e.preventDefault();
+    };
+
+    if (isOpen) {
+      document.addEventListener("wheel", handleWheel, { passive: false });
+    }
+
+    return () => {
+      document.removeEventListener("wheel", handleWheel);
+    };
+  }, [isOpen]);
+
   if (!render) return null;
 
   const baseContainerClasses = `
