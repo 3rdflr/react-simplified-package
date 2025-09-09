@@ -1,6 +1,6 @@
 {
   "name": "react-simplified-package",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Simplified React UI components.",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
