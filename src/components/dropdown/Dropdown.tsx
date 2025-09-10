@@ -46,7 +46,8 @@ export const DropdownTrigger: React.FC<DropdownTriggerProps> = ({
 
 export interface DropdownMenuProps {
   children: React.ReactNode;
-  className?: string; // style prop 제거
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
