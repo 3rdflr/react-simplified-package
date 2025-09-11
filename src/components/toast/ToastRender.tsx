@@ -56,7 +56,7 @@ export const ToastRender = () => {
           opacity = 0;
         }
 
-        const zIndex = reversedToasts.length - index;
+        const zIndex = 500 + reversedToasts.length - index;
 
         // 동적 클래스 문자열 생성
         let dynamicClasses = "";
@@ -79,11 +79,12 @@ export const ToastRender = () => {
           // ✅ 개별 토스트 래퍼의 스타일을 Tailwind로 변경
           <div
             key={t.id}
+            style={{ zIndex }}
             className={`
               absolute top-0 left-1/2 -translate-x-1/2
               transition-all duration-300 ease-out pointer-events-auto
               w-fit whitespace-nowrap
-              z-[${zIndex}]
+              
               ${dynamicClasses}
             `}
           >
