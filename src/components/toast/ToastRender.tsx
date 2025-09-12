@@ -37,7 +37,10 @@ export const ToastRender = () => {
 
   return createPortal(
     // ✅ 포털 루트 컨테이너 스타일을 Tailwind로 변경
-    <div className="fixed top-5 left-1/2 transform -translate-x-1/2 pointer-events-none z-[500] w-full">
+    <div
+      className="fixed top-5 left-1/2 transform -translate-x-1/2 pointer-events-none w-full"
+      style={{ zIndex: 999 }}
+    >
       {reversedToasts.map((t, index) => {
         // ✅ 토스트 개별 아이템의 동적 스타일을 Tailwind 클래스로 계산
         let translateY = 0;
@@ -56,7 +59,7 @@ export const ToastRender = () => {
           opacity = 0;
         }
 
-        const zIndex = 500 + reversedToasts.length - index;
+        const zIndex = reversedToasts.length - index;
 
         // 동적 클래스 문자열 생성
         let dynamicClasses = "";
