@@ -1,8 +1,8 @@
 # react simplified package
 
- Lightweight component for React applications.
+Lightweight component for React applications.
 
- ## Install
+## Install
 
 ```js
 
@@ -14,28 +14,21 @@ npm install react-simplified-package
 
 ### Modal
 
+<details> <summary>Modal Usage</summary>
 
-<details>
-<summary>Modal Useage</summary>
+Smooth fade and slide animations for open/close transitions.
 
-> Animated Entry/Exit: Smooth fade-in and slide-up/down animations for a better user experience.
-> 
-> Outside Click Dismiss: Automatically closes when clicking outside the modal content.
-> 
-> Escape Key Support: Closes the modal when the ESC key is pressed.
-> 
-> Customizable Content: Easily embed any React elements as children.
-> 
-> API: Intuitive isOpen and onClose props.
+Automatically closes on outside click or ESC key press.
 
-To use the Modal component, import it and control its visibility using a state variable in your parent component.
+Fully customizable with inline styles.
+
+Simple isOpen / onClose API for control.
+
+To use the Modal component, import it and control its visibility using state:
 
 ```js
-
-import React, { useState } from 'react';
-// Assuming Modal is exported from your package's main entry point
-// Adjust the import path if your package structure is different
-import { Modal } from 'react-simplified-package'; 
+import React, { useState } from "react";
+import { Modal } from "react-simplified-package";
 
 function App() {
   const [isMyModalOpen, setIsMyModalOpen] = useState(false);
@@ -45,10 +38,7 @@ function App() {
       <h1>My Application</h1>
       <button onClick={() => setIsMyModalOpen(true)}>Open My Modal</button>
 
-      <Modal 
-        isOpen={isMyModalOpen} 
-        onClose={() => setIsMyModalOpen(false)}
-      >
+      <Modal isOpen={isMyModalOpen} onClose={() => setIsMyModalOpen(false)}>
         <h2>Welcome to the Modal!</h2>
         <p>This is some content inside your beautifully animated modal.</p>
         <button onClick={() => setIsMyModalOpen(false)}>Close Modal</button>
@@ -58,56 +48,63 @@ function App() {
 }
 
 export default App;
-
 ```
 
-### Custom Styles
+Custom Styles (Inline)
 
-Customizing Appearance with CSS Classes
-The Modal component is designed to be easily styled. It provides three className props that allow you to apply custom CSS classes (e.g., from Tailwind CSS or your own stylesheet) to specific parts of the modal.
+You can customize every part of the Modal using inline style props.
 
-When you provide a className, it will replace the default inline styles for that element, giving you full control over its appearance.
+| Prop             | Type                  | Description                        |
+| ---------------- | --------------------- | ---------------------------------- |
+| `containerStyle` | `React.CSSProperties` | Styles for the background overlay. |
+| `modalStyle`     | `React.CSSProperties` | Styles for the modal content box.  |
+| `buttonStyle`    | `React.CSSProperties` | Styles for the close button.       |
 
-> Available Props:
-> 
-> containerClassName: Applies to the main backdrop div that covers the entire screen.
-> 
-> modalClassName: Applies to the modal's content div. This is where you can customize its background, padding, shadow, etc.
-> 
-> buttonClassName: Applies to the close button. This is useful for changing its color, size, or position.
+Example with inline custom styles:
 
-Example: Customizing Modal with Tailwind CSS
-
-In this example, we'll create a custom modal with a different background color, a new shadow, and a styled close button by passing Tailwind CSS classes.
-
-```JavaScript
-
-import React, { useState } from 'react';
-import { Modal } from 'react-simplified-package';
+```js
+import React, { useState } from "react";
+import { Modal } from "react-simplified-package";
 
 function CustomModalExample() {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
   return (
     <div>
-      <h1>Application with Custom Modal</h1>
-      <button onClick={() => setIsCustomModalOpen(true)}>Open Custom Modal</button>
+      <h1>Custom Modal Example</h1>
+      <button onClick={() => setIsCustomModalOpen(true)}>
+        Open Custom Modal
+      </button>
 
-      <Modal 
-        isOpen={isCustomModalOpen} 
+      <Modal
+        isOpen={isCustomModalOpen}
         onClose={() => setIsCustomModalOpen(false)}
-        // ✅ Here, we're applying custom classes to each part of the modal.
-        containerClassName="bg-blue-200/80" // Backdrop: semi-transparent blue
-        modalClassName="bg-white rounded-2xl shadow-xl p-6 border-2 border-slate-400" // Modal content
-        buttonClassName="absolute top-4 right-4 text-red-500 hover:text-red-700 font-bold text-2xl" // Close button
+        containerStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        modalStyle={{
+          backgroundColor: "white",
+          borderRadius: "16px",
+          boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+          padding: "24px",
+          border: "1px solid #ccc",
+        }}
+        buttonStyle={{
+          position: "absolute",
+          top: "10px",
+          right: "14px",
+          color: "#e74c3c",
+          fontSize: "20px",
+          fontWeight: "bold",
+          cursor: "pointer",
+        }}
       >
         <h2>Custom Styled Modal</h2>
-        <p>This modal has a blue backdrop, a yellow background, and a red close button, all styled with Tailwind CSS!</p>
+        <p>This modal is fully styled with inline styles!</p>
       </Modal>
     </div>
   );
 }
 
+export default CustomModalExample;
 ```
 
 export default CustomModalExample;
@@ -118,9 +115,8 @@ Note: If a className prop is provided, the component will use your custom classe
 If you need to use multiple distinct modals, simply manage a separate isOpen state for each instance:
 
 ```js
-
-import React, { useState } from 'react';
-import { Modal } from 'react-simplified-package'; 
+import React, { useState } from "react";
+import { Modal } from "react-simplified-package";
 
 function DashboardPage() {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -133,8 +129,8 @@ function DashboardPage() {
       <button onClick={() => setIsSettingsModalOpen(true)}>App Settings</button>
 
       {/* Profile Modal */}
-      <Modal 
-        isOpen={isProfileModalOpen} 
+      <Modal
+        isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
       >
         <h4>User Profile</h4>
@@ -142,8 +138,8 @@ function DashboardPage() {
       </Modal>
 
       {/* Settings Modal */}
-      <Modal 
-        isOpen={isSettingsModalOpen} 
+      <Modal
+        isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
       >
         <h4>Application Settings</h4>
@@ -152,11 +148,9 @@ function DashboardPage() {
     </div>
   );
 }
-
 ```
+
 </details>
-
-
 
 ### Toast
 
@@ -176,7 +170,7 @@ Customizable Content: Supports any React elements as toast content.
 
 ### Basic Usage
 
-To use the toast system, you need to set up the ToastRender component at the root of your application, for example, in your App.tsx or _app.tsx. This component handles the rendering logic for all toasts.
+To use the toast system, you need to set up the ToastRender component at the root of your application, for example, in your App.tsx or \_app.tsx. This component handles the rendering logic for all toasts.
 
 First, ensure ToastRender is placed in a high-level component to enable toasts across your entire app.
 
@@ -197,6 +191,7 @@ function App() {
   );
 }
 ```
+
 Then, you can use the createToastInstance function to get a toast instance and show a toast from any component.
 
 ```JavaScript
@@ -307,7 +302,7 @@ const DurationComponent = () => {
 <details>
 <summary>Dropdown Usage</summary>
 
-`Dropdown` is a flexible and accessible dropdown component built using the Compound Component pattern. 
+`Dropdown` is a flexible and accessible dropdown component built using the Compound Component pattern.
 It handles the core logic and state management for you, allowing you to focus on building your UI.
 
 ### Key Features
@@ -332,59 +327,75 @@ import { Dropdown } from 'react-simplified-package';
 function MyDropdown() {
   return (
     <Dropdown>
-      {/* 1. The Trigger component wraps the element that opens the dropdown */}
-      <DropdownComponent.Trigger>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
+      <Dropdown.Trigger>
+        <button style={{ padding: '8px 12px', backgroundColor: '#3498db', color: 'white', borderRadius: '8px' }}>
           Options
         </button>
       </Dropdown.Trigger>
 
-      {/* 2. The Menu component contains the content to be displayed */}
-      <Dropdown.Menu>
-        <div className="py-1">
-          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            My Account
-          </a>
-          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            Settings
-          </a>
-          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            Log out
-          </a>
-        </div>
+      <Dropdown.Menu
+        style={{
+          background: 'white',
+          borderRadius: '12px',
+          padding: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        }}
+      >
+        <button style={{ display: 'block', width: '100%', padding: '8px', textAlign: 'left' }}>
+          My Account
+        </button>
+        <button style={{ display: 'block', width: '100%', padding: '8px', textAlign: 'left' }}>
+          Settings
+        </button>
+        <button style={{ display: 'block', width: '100%', padding: '8px', textAlign: 'left' }}>
+          Log out
+        </button>
       </Dropdown.Menu>
     </Dropdown>
   );
 }
+
+export default MyDropdown;
+
 ```
+
 `Dropdown.Menu` Prop Details
 The `Dropdown.Menu` provides two props for full control over its styling.
 
-| Prop |	Type |	Description |
-|---|----|---|
-|`className`|	`string` |	Applies CSS classes to the menu container. If a `className` is provided, all default inline styles are ignored, giving you complete control over the component's appearance.|
-|`style` |	`CSSProperties`|	Applies an inline style object to the menu container. This will only be applied if no `className` is provided, allowing you to override specific default styles while keeping others.|
+| Prop        | Type            | Description                                                                                                                                                                           |
+| ----------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `className` | `string`        | Applies CSS classes to the menu container. If a `className` is provided, all default inline styles are ignored, giving you complete control over the component's appearance.          |
+| `style`     | `CSSProperties` | Applies an inline style object to the menu container. This will only be applied if no `className` is provided, allowing you to override specific default styles while keeping others. |
 
 Example: Customizing Styles
 
-Using `className` for full control: Use this when you want to style the entire component with utility classes (e.g., from Tailwind CSS).
-
-Using `style` for partial overrides: Use this when you want to maintain the default style but change only a few properties like `background` or `border`.
+Using `style` for full control: Use this when you want to style the entire component
 
 ```JavaScript
 
-// Using a className to define all styles
-<Dropdown.Menu className="bg-white rounded-xl shadow-lg p-2 border-2 border-slate-300">
-  {/* ... */}
-</Dropdown.Menu>
+import { useDropdown, Dropdown } from 'react-simplified-package';
 
-// Using a style prop to override a specific property
-<Dropdown.Menu style={{ backgroundColor: '#F0F4F8' }}>
-  {/* ... */}
-</Dropdown.Menu>
+function ControlledDropdown() {
+  const { isOpen, toggle, open, close, dropdownRef } = useDropdown();
+
+  return (
+    <div ref={dropdownRef} style={{ position: 'relative', display: 'inline-block' }}>
+      <button onClick={toggle}>Toggle Dropdown</button>
+
+      {isOpen && (
+        <Dropdown.Menu style={{ background: 'white', padding: '8px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+          <div>Custom controlled dropdown menu</div>
+        </Dropdown.Menu>
+      )}
+    </div>
+  );
+}
+
 ```
+
 ### Rendering Menu Items with Data
-Because `Dropdown.Menu` accepts any JSX elements as children, you can easily use array methods like `.map()` to render dynamic menu items. 
+
+Because `Dropdown.Menu` accepts any JSX elements as children, you can easily use array methods like `.map()` to render dynamic menu items.
 This is ideal for menus populated from an API or based on user permissions.
 
 Example: A data-driven dropdown menu
@@ -424,8 +435,10 @@ function UserDropdown() {
   );
 }
 ```
+
 ### Controlling State with a Hook
-The `useDropdown` hook allows you to take full control of the dropdown's state from outside the component. 
+
+The `useDropdown` hook allows you to take full control of the dropdown's state from outside the component.
 This is useful for building more complex interactions or integrating with other UI elements.
 
 ```JavaScript
@@ -450,7 +463,7 @@ function AdvancedDropdown() {
         <Dropdown.Trigger>
           <button>Options</button>
         </Dropdown.Trigger>
-        
+
         {/* Conditionally render the menu based on the `isOpen` state from the hook */}
         {isOpen && (
           <Dropdown.Menu>
@@ -462,7 +475,8 @@ function AdvancedDropdown() {
   );
 }
 ```
-Note: When using the `useDropdown` hook, you are responsible for managing the `isOpen` state and conditionally rendering the menu. 
+
+Note: When using the `useDropdown` hook, you are responsible for managing the `isOpen` state and conditionally rendering the menu.
 The parent `div` should be passed the `dropdownRef` from the hook for the outside click logic to work correctly.
 
 </details>
