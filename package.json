@@ -32,8 +32,7 @@
     "lightweight",
     "customizable",
     "animation",
-    "typescript",
-    "tailwindcss"
+    "typescript"
   ],
   "scripts": {
     "build": "tsc",

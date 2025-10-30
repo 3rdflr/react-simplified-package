@@ -1,13 +1,21 @@
-// ToastRender.tsx
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Toast, createToastInstance } from "./Toast";
 
 const TOAST_CONTAINER_ID = "toast-root";
 
-// ToastItem 컴포넌트의 스타일을 Tailwind로 변경
 const ToastItem: React.FC<{ toast: Toast }> = ({ toast: t }) => {
-  return <div className="flex flex-row items-center">{t.content}</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
+      {t.content}
+    </div>
+  );
 };
 
 export const ToastRender = () => {
@@ -36,13 +44,18 @@ export const ToastRender = () => {
   const reversedToasts = [...toasts].reverse();
 
   return createPortal(
-    // ✅ 포털 루트 컨테이너 스타일을 Tailwind로 변경
     <div
-      className="fixed top-5 left-1/2 transform -translate-x-1/2 pointer-events-none w-full"
-      style={{ zIndex: 999 }}
+      style={{
+        position: "fixed",
+        top: "20px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        pointerEvents: "none",
+        width: "100%",
+        zIndex: 999,
+      }}
     >
       {reversedToasts.map((t, index) => {
-        // ✅ 토스트 개별 아이템의 동적 스타일을 Tailwind 클래스로 계산
         let translateY = 0;
         let scale = 1;
         let opacity = 1;
@@ -59,37 +72,31 @@ export const ToastRender = () => {
           opacity = 0;
         }
 
-        const zIndex = reversedToasts.length - index;
-
-        // 동적 클래스 문자열 생성
-        let dynamicClasses = "";
-
-        // 1. 기본 위치 및 스케일 클래스
-        dynamicClasses += `translate-y-[${translateY}px] scale-[${scale}] opacity-[${opacity}]`;
-
-        // 2. 진입/종료 애니메이션 클래스 (기본값을 덮어씁니다)
         if (t.isOpening) {
-          dynamicClasses = `
-            -translate-y-[50px] scale-[0.8] opacity-0
-          `;
+          translateY = -50;
+          scale = 0.8;
+          opacity = 0;
         } else if (t.isClosing) {
-          dynamicClasses = `
-            translate-y-[0px] scale-[0.8] opacity-0
-          `;
+          translateY = 0;
+          scale = 0.8;
+          opacity = 0;
         }
 
         return (
-          // ✅ 개별 토스트 래퍼의 스타일을 Tailwind로 변경
           <div
             key={t.id}
-            style={{ zIndex }}
-            className={`
-              absolute top-0 left-1/2 -translate-x-1/2
-              transition-all duration-300 ease-out pointer-events-auto
-              w-fit whitespace-nowrap
-              
-              ${dynamicClasses}
-            `}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: `translate(-50%, ${translateY}px) scale(${scale})`,
+              opacity,
+              transition: "all 0.3s ease-out",
+              pointerEvents: "auto",
+              zIndex: reversedToasts.length - index,
+              whiteSpace: "nowrap",
+              width: "fit-content",
+            }}
           >
             <ToastItem toast={t} />
           </div>
